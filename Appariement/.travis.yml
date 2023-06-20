@@ -1,0 +1,30 @@
+language: java
+
+jdk:
+  - openjdk11
+
+# Define the stages for the build process
+stages:
+  - install
+  - build
+  - test
+  - integration-test
+
+# Define the jobs for each stage
+jobs:
+  include:
+    - stage: install
+      script:
+        - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+    - stage: build
+      script:
+        - mvn package -B
+
+    - stage: test
+      script:
+        - mvn test -B
+
+    - stage: integration-test
+      script:
+        - mvn failsafe:integration-test -B
